@@ -1,0 +1,7 @@
+.game-container {
+  align-items: center;
+  background-color: #fff;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}

@@ -1,0 +1,9 @@
+.board-container {
+  background-color: #f2f2f2;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.board-cell {
+  background-color: lightcoral;
+}
