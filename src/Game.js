@@ -38,11 +38,16 @@ class Game extends Component {
     this.setState({ board: initSnake(board, this.state.cellSpecs)});
   }
 
+  componentDidMount() {
+    this.refs.game.focus();
+  }
+
   render() {
     return (
       <div
         className="game-container"
         onKeyDown={this._handleKeyPress}
+        ref="game"
         tabIndex={0} // allows non-form elements to register kb events
       >
         <Board

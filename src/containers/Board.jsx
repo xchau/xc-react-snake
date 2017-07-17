@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import '../styles/Board.css';
+
 import { styleBoard, styleCell } from '../helpers/styleHelpers';
+
+import Cell from './Cell';
 
 export default class Board extends Component {
   constructor(props) {
@@ -18,9 +21,9 @@ export default class Board extends Component {
       let row = [];
 
       for (let j = 0; j < cols; j++) {
-        row.push(<div
-          className="board-cell-normal"
-          style={styleCell(this.props.cellSpecs)}
+        row.push(<Cell
+          styles={styleCell(this.props.cellSpecs)}
+          type="normal"
         />);
       }
 
