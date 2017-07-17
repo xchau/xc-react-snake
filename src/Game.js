@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './styles/Game.css';
 
+import { initSnake } from './helpers/snake';
+
 import Board from './containers/Board';
 
 class Game extends Component {
@@ -24,23 +26,23 @@ class Game extends Component {
       }
     };
 
-    this._handleKey = this._handleKey.bind(this);
+    this._handleKeyPress = this._handleKeyPress.bind(this);
     this.createBoard = this.createBoard.bind(this);
   }
 
-  _handleKey(e) {
+  _handleKeyPress(e) {
     console.log(e.keyCode);
   }
 
   createBoard(board) {
-    this.setState({board});
+    this.setState({ board: initSnake(board, this.state.cellSpecs)});
   }
 
   render() {
     return (
       <div
         className="game-container"
-        onKeyDown={this._handleKey}
+        onKeyDown={this._handleKeyPress}
         tabIndex={0} // allows non-form elements to register kb events
       >
         <Board
