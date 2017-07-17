@@ -2,6 +2,7 @@
   background-color: #f2f2f2;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .board-cell-normal {
@@ -10,4 +11,8 @@
 
 .board-cell-snake {
   background-color: rgba(53, 159, 227, 0.8);
+}
+
+.board-start {
+  margin-top: 15px;
 }

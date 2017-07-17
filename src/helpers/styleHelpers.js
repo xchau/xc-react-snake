@@ -1,5 +1,3 @@
-'use strict';
-
 export const styleBoard = (boardSpecs, cellSpecs) => {
   return {
     height: boardSpecs.rows * cellSpecs.height,

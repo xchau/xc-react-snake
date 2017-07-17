@@ -2,32 +2,75 @@ import React, { Component } from 'react';
 import '../styles/Board.css';
 
 import { styleBoard, styleCell } from '../helpers/styleHelpers';
+import { LEFT, UP, RIGHT, DOWN } from '../helpers/constants';
 
-import Cell from './Cell';
+import { Cell } from '../components/Cell';
 
 export default class Board extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      boardWithSnake: []
+      // snake: this.props.snake
     };
+
+    this._handleHead = this._handleHead.bind(this);
+    this._renderSnake = this._renderSnake.bind(this);
   }
 
-  _initSnake() {
-    const board = this.props.board;
+  _handleHead(board) {
+    const head = this.props.snake.head;
 
-    board[0][0] = <Cell
+    board[head[0]][head[1]] = <Cell
       styles={styleCell(this.props.cellSpecs)}
       type="snake"
-      updateBoard={this.props.updateBoard}
-    />
+    />;
 
-    this.setState({ boardWithSnake: board });
+    return board;
   }
 
+  _renderSnake() {
+    const snake = this.props.snake;
+    const boardSpecs = this.props.boardSpecs;
+
+    switch (snake.dir) {
+      case LEFT:
+        break;
+      case UP:
+        break;
+      case RIGHT:
+        snake.head[1] += 1;
+
+        if (snake.head[1] >= boardSpecs.rows) {
+          snake.head[1] = 0;
+        }
+
+        break;
+
+      case DOWN:
+        snake.head[0] += 1;
+
+        if (snake.head[0] >= boardSpecs.cols) {
+          snake.head[0] = 0;
+        }
+
+        break;
+    }
+
+    const newBoard = this._handleHead(this.props.board);
+
+    this.props.updateSnake(snake);
+    this.props.updateBoard(newBoard);
+
+    setTimeout(this._renderSnake, 500);
+  }
+
+  // shouldComponentUpdate(nextProps) {
+  //   return this.state.snake.dir !== nextProps.snake.dir;
+  // }
+
   componentWillMount() {
-    const board = [],
+    const initialBoard = [],
           rows = this.props.boardSpecs.rows,
           cols = this.props.boardSpecs.cols;
 
@@ -38,14 +81,13 @@ export default class Board extends Component {
         row.push(<Cell
           styles={styleCell(this.props.cellSpecs)}
           type="normal"
-          updateBoard={this.props.updateBoard}
         />);
       }
 
-      board.push(row);
+      initialBoard.push(row);
     }
 
-    this.props.createBoard(board);
+    this.props.updateBoard(this._handleHead(initialBoard));
   }
 
   render() {
@@ -54,6 +96,13 @@ export default class Board extends Component {
       style={styleBoard(this.props.boardSpecs, this.props.cellSpecs)}
     >
       {this.props.board}
+
+      <button
+        className="board-start"
+        onClick={this._renderSnake}
+      >
+        Start
+      </button>
     </div>
   }
 }
