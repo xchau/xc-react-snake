@@ -9,7 +9,21 @@ export default class Board extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      boardWithSnake: []
+    };
+  }
+
+  _initSnake() {
+    const board = this.props.board;
+
+    board[0][0] = <Cell
+      styles={styleCell(this.props.cellSpecs)}
+      type="snake"
+      updateBoard={this.props.updateBoard}
+    />
+
+    this.setState({ boardWithSnake: board });
   }
 
   componentWillMount() {
@@ -24,6 +38,7 @@ export default class Board extends Component {
         row.push(<Cell
           styles={styleCell(this.props.cellSpecs)}
           type="normal"
+          updateBoard={this.props.updateBoard}
         />);
       }
 

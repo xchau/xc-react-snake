@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './styles/Game.css';
 
 import { initSnake } from './helpers/snake';
+import { LEFT, UP, RIGHT, DOWN } from './helpers/constants';
 
 import Board from './containers/Board';
 
@@ -28,14 +29,25 @@ class Game extends Component {
 
     this._handleKeyPress = this._handleKeyPress.bind(this);
     this.createBoard = this.createBoard.bind(this);
+    this.updateBoard = this.updateBoard.bind(this);
   }
 
   _handleKeyPress(e) {
-    console.log(e.keyCode);
+    if (37 <= e.keyCode <= 40) {
+      const snakeSpecs = Object.assign({}, this.state.snake);
+
+      snakeSpecs.dir = RIGHT;
+
+      this.setState({ snake: snakeSpecs });
+    }
   }
 
   createBoard(board) {
     this.setState({ board: initSnake(board, this.state.cellSpecs)});
+  }
+
+  updateBoard(newBoard) {
+    this.setState({ board: newBoard });
   }
 
   componentDidMount() {
@@ -55,6 +67,7 @@ class Game extends Component {
           boardSpecs={this.state.boardSpecs}
           cellSpecs={this.state.cellSpecs}
           createBoard={this.createBoard}
+          updateBoard={this.updateBoard}
         />
       </div>
     );
