@@ -4,6 +4,6 @@
   flex-wrap: wrap;
 }
 
-.board-cell {
-  background-color: lightcoral;
+.board-cell-normal {
+  background-color: rgba(162, 231, 107, 0.8);
 }

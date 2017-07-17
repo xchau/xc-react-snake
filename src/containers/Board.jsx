@@ -1,31 +1,25 @@
 import React, { Component } from 'react';
 import '../styles/Board.css';
-import { styleBoard, styleCell } from '../helpers/stylingHelpers';
+import { styleBoard, styleCell } from '../helpers/styleHelpers';
 
 export default class Board extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      boardSpecs: {
-        rows: 20,
-        cols: 20
-      },
-      board: []
-    }
+    this.state = {};
   }
 
   componentWillMount() {
     const board = [],
-          rows = this.state.boardSpecs.rows,
-          cols = this.state.boardSpecs.cols;
+          rows = this.props.boardSpecs.rows,
+          cols = this.props.boardSpecs.cols;
 
     for (let i = 0; i < rows; i++) {
       let row = [];
 
       for (let j = 0; j < cols; j++) {
         row.push(<div
-          className="board-cell"
+          className="board-cell-normal"
           style={styleCell(this.props.cellSpecs)}
         />);
       }
@@ -33,15 +27,15 @@ export default class Board extends Component {
       board.push(row);
     }
 
-    this.setState({board});
+    this.props.createBoard(board);
   }
 
   render() {
     return <div
       className="board-container"
-      style={styleBoard(this.state.boardSpecs, this.props.cellSpecs)}
+      style={styleBoard(this.props.boardSpecs, this.props.cellSpecs)}
     >
-      {this.state.board}
+      {this.props.board}
     </div>
   }
 }
