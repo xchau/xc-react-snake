@@ -2,7 +2,7 @@
   background-color: #f2f2f2;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  /*justify-content: center;*/
 }
 
 .board-cell-normal {

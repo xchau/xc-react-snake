@@ -11,8 +11,7 @@ class Game extends Component {
 
     this.state = {
       snake: {
-        head: [0, 0],
-        tail: [],
+        body: [[0, 0]],
         dir: RIGHT,
       },
       board: [],
@@ -44,10 +43,12 @@ class Game extends Component {
   }
 
   updateBoard(board) {
+    console.log(board[0][1].props.type);
     this.setState({ board });
   }
 
   updateSnake(snake) {
+    // console.log(snake.body);
     this.setState({ snake });
   }
 
