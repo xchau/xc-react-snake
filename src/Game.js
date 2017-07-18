@@ -43,8 +43,9 @@ class Game extends Component {
   }
 
   updateBoard(board) {
-    console.log(board[0][1].props.type);
     this.setState({ board });
+
+    // setTimeout(() => {console.log(this.state.board[0][0].props.type)}, 500);
   }
 
   updateSnake(snake) {
