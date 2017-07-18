@@ -1,14 +1,18 @@
-import React from 'react';
+import { LEFT, UP, RIGHT, DOWN,
+  BOARD_ROWS, BOARD_COLS
+} from './constants';
 
-import { styleCell } from './styleHelpers';
+export const arrangeSnake = (dir, snake) => {
+  const newSnake = [].concat(snake);
 
-import Cell from '../containers/Cell';
+  if (dir === RIGHT) {
+    newSnake[0] += 1;
+    // console.log(newSnake[0]);
 
-export const initSnake = (board, cellSpecs) => {
-  // board[0][0] = <Cell
-  //   styles={styleCell(cellSpecs)}
-  //   type="snake"
-  // />
-  //
-  // return board;
-}
+    if (newSnake[0] >= BOARD_ROWS) {
+      newSnake[0] = 0;
+    }
+  }
+  console.log(newSnake[0]);
+  return newSnake;
+};

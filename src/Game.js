@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './styles/Game.css';
 
-import { LEFT, UP, RIGHT, DOWN } from './helpers/constants';
+import { keys,
+  LEFT, UP, RIGHT, DOWN,
+  BOARD_ROWS, BOARD_COLS
+ } from './helpers/constants';
 
 import Board from './containers/Board';
 
@@ -11,36 +14,25 @@ class Game extends Component {
 
     this.state = {
       boardSpecs: {
-        rows: 20,
-        cols: 20
+        rows: BOARD_ROWS,
+        cols: BOARD_COLS
       },
       cellSpecs: {
         height: 30,
         width: 30
-      }
+      },
+      dir: RIGHT
     };
 
     this._handleKeyPress = this._handleKeyPress.bind(this);
-    this.createBoard = this.createBoard.bind(this);
-    this.updateBoard = this.updateBoard.bind(this);
   }
 
   _handleKeyPress(e) {
     if (37 <= e.keyCode <= 40) {
-      const snakeSpecs = Object.assign({}, this.state.snake);
+      this.setState({ dir: keys[e.keyCode] });
 
-      // snakeSpecs.dir = RIGHT;
-      //
-      // this.setState({ snake: snakeSpecs });
+      setTimeout(() => {console.log(this.state.dir)}, 500)
     }
-  }
-
-  createBoard(board) {
-    // this.setState({ board: initSnake(board, this.state.cellSpecs)});
-  }
-
-  updateBoard(newBoard) {
-    this.setState({ board: newBoard });
   }
 
   componentDidMount() {
@@ -59,7 +51,7 @@ class Game extends Component {
           boardSpecs={this.state.boardSpecs}
           cellSpecs={this.state.cellSpecs}
           createBoard={this.createBoard}
-          updateBoard={this.updateBoard}
+          dir={this.state.dir}
         />
       </div>
     );

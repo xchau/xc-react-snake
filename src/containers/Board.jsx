@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import '../styles/Board.css';
 
+import { LEFT, UP, RIGHT, DOWN } from '../helpers/constants';
 import { styleBoard, styleCell } from '../helpers/styleHelpers';
+import { arrangeSnake } from '../helpers/snake';
 
 import { Cell } from './Cell';
 
@@ -11,11 +13,13 @@ export default class Board extends Component {
 
     this.state = {
       snake: [0],
-      board: []
+      board: [],
+      cells: []
     };
 
     this._initBoard = this._initBoard.bind(this);
     this._renderBoard = this._renderBoard.bind(this);
+    this._tick = this._tick.bind(this);
   }
 
   _initBoard() {
@@ -28,17 +32,21 @@ export default class Board extends Component {
     }
 
     this.setState({
-      board: this._renderBoard(board)
+      board: board,
+      cells: this._renderBoard(board)
     });
   }
 
   _renderBoard(board) {
+    const newBoard = [].concat(board);
+
     // Render snake
     for (const idx of this.state.snake) {
-      board[idx] = 1;
+      newBoard[idx] = 1;
     }
+    console.log(newBoard.slice(0, 3));
 
-    let cells = board.map((value, idx) => {
+    let cells = newBoard.map((value, idx) => {
       if (value) {
         return value = <Cell
           key={idx}
@@ -56,6 +64,35 @@ export default class Board extends Component {
     return cells;
   }
 
+  _tick() {
+    const dir = this.props.dir;
+
+    switch (dir) {
+      case LEFT:
+        break;
+
+      case UP:
+        break;
+
+      case RIGHT:
+        this.setState({
+          snake: arrangeSnake(dir, this.state.snake)
+        });
+
+        break;
+
+      case DOWN:
+        break;
+    }
+
+    this.setState({
+      cells: this._renderBoard(this.state.board)
+    });
+    setTimeout(() => {
+      this._tick();
+    }, 1000);
+  }
+
   componentDidMount() {
     this._initBoard();
   }
@@ -65,7 +102,14 @@ export default class Board extends Component {
       className="board-container"
       style={styleBoard(this.props.boardSpecs, this.props.cellSpecs)}
     >
-      {this.state.board}
+      {this.state.cells}
+
+      <button
+        className="board-start-button"
+        onClick={this._tick}
+      >
+        Start
+      </button>
     </div>
   }
 }
