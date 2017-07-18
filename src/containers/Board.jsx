@@ -10,7 +10,7 @@ export default class Board extends Component {
     super(props);
 
     this.state = {
-      snake: [],
+      snake: [0],
       board: []
     };
 
@@ -33,6 +33,11 @@ export default class Board extends Component {
   }
 
   _renderBoard(board) {
+    // Render snake
+    for (const idx of this.state.snake) {
+      board[idx] = 1;
+    }
+
     let cells = board.map((value, idx) => {
       if (value) {
         return value = <Cell
