@@ -3,49 +3,56 @@ import '../styles/Board.css';
 
 import { styleBoard, styleCell } from '../helpers/styleHelpers';
 
-import Cell from './Cell';
+import { Cell } from './Cell';
 
 export default class Board extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      boardWithSnake: []
+      snake: [],
+      board: []
     };
+
+    this._initBoard = this._initBoard.bind(this);
+    this._renderBoard = this._renderBoard.bind(this);
   }
 
-  _initSnake() {
-    const board = this.props.board;
-
-    board[0][0] = <Cell
-      styles={styleCell(this.props.cellSpecs)}
-      type="snake"
-      updateBoard={this.props.updateBoard}
-    />
-
-    this.setState({ boardWithSnake: board });
-  }
-
-  componentWillMount() {
+  _initBoard() {
     const board = [],
           rows = this.props.boardSpecs.rows,
           cols = this.props.boardSpecs.cols;
 
-    for (let i = 0; i < rows; i++) {
-      let row = [];
-
-      for (let j = 0; j < cols; j++) {
-        row.push(<Cell
-          styles={styleCell(this.props.cellSpecs)}
-          type="normal"
-          updateBoard={this.props.updateBoard}
-        />);
-      }
-
-      board.push(row);
+    for (let i = 0; i < rows * cols; i++) {
+      board.push(0);
     }
 
-    this.props.createBoard(board);
+    this.setState({
+      board: this._renderBoard(board)
+    });
+  }
+
+  _renderBoard(board) {
+    let cells = board.map((value, idx) => {
+      if (value) {
+        return value = <Cell
+          key={idx}
+          styles={styleCell(this.props.cellSpecs)}
+          type="snake" />;
+      }
+      else {
+        return value = <Cell
+          key={idx}
+          styles={styleCell(this.props.cellSpecs)}
+          type="normal" />;
+      }
+    });
+
+    return cells;
+  }
+
+  componentDidMount() {
+    this._initBoard();
   }
 
   render() {
@@ -53,7 +60,7 @@ export default class Board extends Component {
       className="board-container"
       style={styleBoard(this.props.boardSpecs, this.props.cellSpecs)}
     >
-      {this.props.board}
+      {this.state.board}
     </div>
   }
 }

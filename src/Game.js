@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './styles/Game.css';
 
-import { initSnake } from './helpers/snake';
 import { LEFT, UP, RIGHT, DOWN } from './helpers/constants';
 
 import Board from './containers/Board';
@@ -11,12 +10,6 @@ class Game extends Component {
     super(props);
 
     this.state = {
-      snake: {
-        length: 1,
-        tail: [],
-        dir: '',
-      },
-      board: [],
       boardSpecs: {
         rows: 20,
         cols: 20
@@ -36,14 +29,14 @@ class Game extends Component {
     if (37 <= e.keyCode <= 40) {
       const snakeSpecs = Object.assign({}, this.state.snake);
 
-      snakeSpecs.dir = RIGHT;
-
-      this.setState({ snake: snakeSpecs });
+      // snakeSpecs.dir = RIGHT;
+      //
+      // this.setState({ snake: snakeSpecs });
     }
   }
 
   createBoard(board) {
-    this.setState({ board: initSnake(board, this.state.cellSpecs)});
+    // this.setState({ board: initSnake(board, this.state.cellSpecs)});
   }
 
   updateBoard(newBoard) {
@@ -63,7 +56,6 @@ class Game extends Component {
         tabIndex={0} // allows non-form elements to register kb events
       >
         <Board
-          board={this.state.board}
           boardSpecs={this.state.boardSpecs}
           cellSpecs={this.state.cellSpecs}
           createBoard={this.createBoard}
