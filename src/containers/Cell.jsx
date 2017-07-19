@@ -7,6 +7,7 @@ export const Cell = (props) => {
 
   return (
     <div
+      id={props.id}
       className={`cell ${cssClass}`}
       style={props.styles}
     />

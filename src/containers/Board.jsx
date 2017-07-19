@@ -12,7 +12,7 @@ export default class Board extends Component {
     super(props);
 
     this.state = {
-      snake: [0],
+      snake: [375],
       board: [],
       cells: []
     };
@@ -44,7 +44,8 @@ export default class Board extends Component {
     for (const idx of this.state.snake) {
       newBoard[idx] = 1;
     }
-    console.log(newBoard.slice(0, 3));
+    // console.log(this.state.snake[0]);
+    // console.log(newBoard.slice(0, 3));
 
     let cells = newBoard.map((value, idx) => {
       if (value) {
@@ -55,6 +56,7 @@ export default class Board extends Component {
       }
       else {
         return value = <Cell
+          id={idx}
           key={idx}
           styles={styleCell(this.props.cellSpecs)}
           type="normal" />;
@@ -69,9 +71,17 @@ export default class Board extends Component {
 
     switch (dir) {
       case LEFT:
+        this.setState({
+          snake: arrangeSnake(dir, this.state.snake)
+        });
+
         break;
 
       case UP:
+        this.setState({
+          snake: arrangeSnake(dir, this.state.snake)
+        });
+
         break;
 
       case RIGHT:
@@ -82,6 +92,10 @@ export default class Board extends Component {
         break;
 
       case DOWN:
+        this.setState({
+          snake: arrangeSnake(dir, this.state.snake)
+        });
+
         break;
     }
 
@@ -89,8 +103,8 @@ export default class Board extends Component {
       cells: this._renderBoard(this.state.board)
     });
     setTimeout(() => {
-      this._tick();
-    }, 1000);
+      return this._tick()
+    }, 300);
   }
 
   componentDidMount() {
