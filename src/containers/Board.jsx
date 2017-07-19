@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/Board.css';
 
-import { LEFT, UP, RIGHT, DOWN } from '../helpers/constants';
+import { LEFT, UP, RIGHT, DOWN, INIT_SNAKE } from '../helpers/constants';
 import { styleBoard, styleCell } from '../helpers/styleHelpers';
 import { arrangeSnake } from '../helpers/snake';
 
@@ -12,7 +12,7 @@ export default class Board extends Component {
     super(props);
 
     this.state = {
-      snake: [375],
+      snake: INIT_SNAKE,
       board: [],
       cells: []
     };
