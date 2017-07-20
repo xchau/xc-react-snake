@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import '../styles/Board.css';
 
-import { LEFT, UP, RIGHT, DOWN, INIT_SNAKE } from '../helpers/constants';
+import { INIT_SNAKE } from '../helpers/constants';
 import { styleBoard, styleCell } from '../helpers/styleHelpers';
-import { arrangeSnake } from '../helpers/snake';
+import { placeFood } from '../helpers/food';
+import { manipulateSnake } from '../helpers/snake';
 
 import { Cell } from './Cell';
 
@@ -31,6 +32,8 @@ export default class Board extends Component {
       board.push(0);
     }
 
+    placeFood(board);
+
     this.setState({
       board: board,
       cells: this._renderBoard(board)
@@ -44,15 +47,19 @@ export default class Board extends Component {
     for (const idx of this.state.snake) {
       newBoard[idx] = 1;
     }
-    // console.log(this.state.snake[0]);
-    // console.log(newBoard.slice(0, 3));
 
     let cells = newBoard.map((value, idx) => {
-      if (value) {
+      if (value === 1) {
         return value = <Cell
           key={idx}
           styles={styleCell(this.props.cellSpecs)}
           type="snake" />;
+      }
+      else if (value > 1) {
+        return value = <Cell
+          key={idx}
+          styles={styleCell(this.props.cellSpecs)}
+          type="food" />;
       }
       else {
         return value = <Cell
@@ -69,42 +76,12 @@ export default class Board extends Component {
   _tick() {
     const dir = this.props.dir;
 
-    switch (dir) {
-      case LEFT:
-        this.setState({
-          snake: arrangeSnake(dir, this.state.snake)
-        });
-
-        break;
-
-      case UP:
-        this.setState({
-          snake: arrangeSnake(dir, this.state.snake)
-        });
-
-        break;
-
-      case RIGHT:
-        this.setState({
-          snake: arrangeSnake(dir, this.state.snake)
-        });
-
-        break;
-
-      case DOWN:
-        this.setState({
-          snake: arrangeSnake(dir, this.state.snake)
-        });
-
-        break;
-    }
-
     this.setState({
+      snake: manipulateSnake(dir, this.state.snake),
       cells: this._renderBoard(this.state.board)
     });
-    setTimeout(() => {
-      return this._tick()
-    }, 300);
+
+    setTimeout(this._tick, 100);
   }
 
   componentDidMount() {

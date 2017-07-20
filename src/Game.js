@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import './styles/Game.css';
 
-import { keys,
-  LEFT, UP, RIGHT, DOWN,
-  BOARD_ROWS, BOARD_COLS
- } from './helpers/constants';
+import { keys, LEFT, UP, RIGHT, DOWN, BOARD_ROWS } from './helpers/constants';
 
 import Board from './containers/Board';
 
@@ -15,7 +12,7 @@ class Game extends Component {
     this.state = {
       boardSpecs: {
         rows: BOARD_ROWS,
-        cols: BOARD_COLS
+        cols: BOARD_ROWS
       },
       cellSpecs: {
         height: 30,
@@ -28,7 +25,12 @@ class Game extends Component {
   }
 
   _handleKeyPress(e) {
-    if (37 <= e.keyCode <= 40) {
+    if (37 <= e.keyCode && e.keyCode <= 40) {
+      if (this.state.dir === RIGHT && keys[e.keyCode] === LEFT) return;
+      if (this.state.dir === LEFT && keys[e.keyCode] === RIGHT) return;
+      if (this.state.dir === UP && keys[e.keyCode] === DOWN) return;
+      if (this.state.dir === DOWN && keys[e.keyCode] === UP) return;
+
       this.setState({ dir: keys[e.keyCode] });
 
       setTimeout(() => {console.log(this.state.dir)}, 500)

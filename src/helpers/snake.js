@@ -1,58 +1,29 @@
 import { LEFT, UP, RIGHT, DOWN, BOARD_ROWS } from './constants';
 
-const rightLimits = (lim, obj) => {
-  let cur = lim - 1;
-
-  for (let i = 0; i < lim; i++) {
-    obj[cur] = cur;
-    cur += lim;
-  }
-
-  return obj;
-}
-
-const leftLimits = (lim, obj) => {
-  for (let i = 0; i < lim * lim; i += lim) {
-    obj[i] = i;
-  }
-
-  return obj
-}
-
-console.log(leftLimits(BOARD_ROWS, {}));
-
-export const arrangeSnake = (dir, snake) => {
+export const manipulateSnake = (dir, snake) => {
   const newSnake = [].concat(snake);
 
-  if (dir === LEFT) {
-    newSnake[0] -= 1;
+  let x = newSnake[0] % BOARD_ROWS,
+      y = Math.floor(newSnake[0] / BOARD_ROWS);
 
-    if (newSnake[0] < 0) {
-      newSnake[0] = BOARD_ROWS - 1;
-    }
+  switch (dir) {
+    case LEFT: x = x <= 0 ? BOARD_ROWS - 1 : x - 1; break;
+    case UP: y = y <= 0 ? BOARD_ROWS - 1 : y - 1; break;
+    case RIGHT: x = x >= BOARD_ROWS - 1 ? 0 : x + 1; break;
+    case DOWN: y = y >= BOARD_ROWS - 1 ? 0 : y + 1; break;
+    default: return;
   }
-  else if (dir === UP) {
-    newSnake[0] -= BOARD_ROWS;
 
-    if (newSnake[0] <= 0) {
-      newSnake[0] = (BOARD_ROWS * BOARD_ROWS) - Math.abs(newSnake[0]);
-    }
-  }
-  else if (dir === RIGHT) {
-    newSnake[0] += 1;
+  let prev = newSnake[0];
+  let cur;
 
-    if (newSnake[0] > rightLimits[newSnake[0]]) {
-      console.log('test');
-      newSnake[0] = newSnake[0] - BOARD_ROWS;
-    }
+  for (let i = 1; i < newSnake.length; i++) {
+    cur = newSnake[i];
+    newSnake[i] = prev;
+    prev = cur;
   }
-  else if (dir === DOWN) {
-    newSnake[0] += BOARD_ROWS;
 
-    if (newSnake[0] > BOARD_ROWS) {
-      newSnake[0] = newSnake[0] - ((BOARD_ROWS * BOARD_ROWS) - BOARD_ROWS);
-    }
-  }
+  newSnake[0] = (BOARD_ROWS * y) + x; // reassign head;
 
   return newSnake;
 };
