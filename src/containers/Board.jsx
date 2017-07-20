@@ -16,7 +16,7 @@ export default class Board extends Component {
       snake: INIT_SNAKE,
       board: [],
       cells: [],
-      food: [placeFood()]
+      food: []
     };
 
     this._initBoard = this._initBoard.bind(this);
@@ -86,6 +86,21 @@ export default class Board extends Component {
     });
 
     setTimeout(this._tick, 100);
+  }
+
+  componentWillMount() {
+    let foodIdx = placeFood(),
+        unique = false;
+
+    while (!unique) {
+      if (!this.state.snake.includes(foodIdx)) {
+        this.setState({ food: [foodIdx] });
+        unique = true;
+      }
+      else {
+        foodIdx = placeFood();
+      }
+    }
   }
 
   componentDidMount() {

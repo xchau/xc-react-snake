@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './styles/Game.css';
 
-import { keys, codes,
-  LEFT, UP, RIGHT, DOWN, BOARD_ROWS
-} from './helpers/constants';
+import { keys, codes, RIGHT, BOARD_ROWS } from './helpers/constants';
 
 import Board from './containers/Board';
 
