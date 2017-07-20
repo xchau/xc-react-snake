@@ -18,7 +18,8 @@ class Game extends Component {
         height: 30,
         width: 30
       },
-      dir: RIGHT
+      dir: RIGHT,
+      paused: true
     };
 
     this._handleKeyPress = this._handleKeyPress.bind(this);
@@ -38,6 +39,14 @@ class Game extends Component {
         console.log(this.state.dir)
       }, 70);
     }
+    else {
+      this.refs.game.blur();
+      this._shouldPause(true);
+    }
+  }
+
+  _shouldPause(bool) {
+    this.setState({ paused: bool });
   }
 
   componentDidMount() {
@@ -57,6 +66,7 @@ class Game extends Component {
           cellSpecs={this.state.cellSpecs}
           createBoard={this.createBoard}
           dir={this.state.dir}
+          paused={this.state.paused}
         />
       </div>
     );
