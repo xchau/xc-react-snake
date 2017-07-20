@@ -16,7 +16,8 @@ export default class Board extends Component {
       snake: INIT_SNAKE,
       board: [],
       cells: [],
-      food: []
+      food: [],
+      message: 'Start Game'
     };
 
     this._initBoard = this._initBoard.bind(this);
@@ -35,6 +36,10 @@ export default class Board extends Component {
     }
     else {
       this.props.updateStatus(PAUSED);
+
+      if (this.state.message !== 'Resume') {
+        this.setState({ message: 'Resume' });
+      }
     }
   }
 
@@ -142,7 +147,6 @@ export default class Board extends Component {
   }
 
   render() {
-
     return <div className="board-container">
       <div
         className="board-box"
@@ -160,7 +164,7 @@ export default class Board extends Component {
             :
             <div className="board-overlay">
               <button onClick={this._handleClick}>
-                Snake!
+                { this.state.message }
               </button>
             </div>
         }
