@@ -35,7 +35,7 @@ export const extendSnake = (dir, snake) => {
   let x = tail % BOARD_ROWS,
       y = Math.floor(tail / BOARD_ROWS);
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 1; i++) {
     switch (dir) {
       case LEFT: x = x >= BOARD_ROWS - 1 ? 0 : x + 1; break;
       case UP: y = y >= BOARD_ROWS - 1 ? 0 : y + 1; break;

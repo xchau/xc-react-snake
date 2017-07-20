@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/Board.css';
 
-import { INIT_SNAKE } from '../helpers/constants';
+import { INIT_SNAKE, ACTIVE, PAUSED } from '../helpers/constants';
 import { styleBoard, styleCell } from '../helpers/styleHelpers';
 import { placeFood } from '../helpers/food';
 import { manipulateSnake, extendSnake } from '../helpers/snake';
@@ -22,6 +22,20 @@ export default class Board extends Component {
     this._initBoard = this._initBoard.bind(this);
     this._renderBoard = this._renderBoard.bind(this);
     this._tick = this._tick.bind(this);
+    this._handleClick = this._handleClick.bind(this);
+  }
+
+  _handleClick() {
+    console.log('init');
+    if (this.props.status === PAUSED) {
+      this.props.updateStatus(ACTIVE);
+      this.props.focusGame();
+
+      setTimeout(this._tick, 250);
+    }
+    else {
+      this.props.updateStatus(PAUSED);
+    }
   }
 
   _initBoard() {
@@ -80,6 +94,8 @@ export default class Board extends Component {
   }
 
   _tick() {
+    if (this.props.status === PAUSED) return;
+
     const dir = this.props.dir;
     const curSnake = this.state.snake;
 
@@ -126,18 +142,29 @@ export default class Board extends Component {
   }
 
   render() {
-    return <div
-      className="board-container"
-      style={styleBoard(this.props.boardSpecs, this.props.cellSpecs)}
-    >
-      {this.state.cells}
 
-      <button
-        className="board-start-button"
-        onClick={this._tick}
+    return <div className="board-container">
+      <div
+        className="board-box"
+        style={styleBoard(this.props.boardSpecs, this.props.cellSpecs)}
       >
-        Start
-      </button>
+        { this.state.cells }
+        {
+          this.props.status === ACTIVE ?
+            <button
+              className="board-pause-button"
+              onClick={this._handleClick}
+            >
+              Pause
+            </button>
+            :
+            <div className="board-overlay">
+              <button onClick={this._handleClick}>
+                Snake!
+              </button>
+            </div>
+        }
+      </div>
     </div>
   }
 }

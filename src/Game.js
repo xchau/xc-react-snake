@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './styles/Game.css';
 
-import { keys, codes, RIGHT, BOARD_ROWS } from './helpers/constants';
+import { keys, codes,
+  RIGHT, BOARD_ROWS,
+  ACTIVE, PAUSED } from './helpers/constants';
 
 import Board from './containers/Board';
 
@@ -19,10 +21,12 @@ class Game extends Component {
         width: 30
       },
       dir: RIGHT,
-      paused: true
+      status: PAUSED
     };
 
     this._handleKeyPress = this._handleKeyPress.bind(this);
+    this.focusGame = this.focusGame.bind(this);
+    this.updateStatus = this.updateStatus.bind(this);
   }
 
   _handleKeyPress(e) {
@@ -39,24 +43,25 @@ class Game extends Component {
         console.log(this.state.dir)
       }, 70);
     }
-    else {
-      this.refs.game.blur();
-      this._shouldPause(true);
-    }
   }
 
-  _shouldPause(bool) {
-    this.setState({ paused: bool });
+  focusGame() {
+    this.refs.game.focus();
+  }
+
+  updateStatus(status) {
+    this.setState({ status });
   }
 
   componentDidMount() {
-    this.refs.game.focus();
+    this.focusGame();
   }
 
   render() {
     return (
       <div
         className="game-container"
+        // onBlur={() => this.updateStatus(PAUSED)}
         onKeyDown={this._handleKeyPress}
         ref="game"
         tabIndex={0} // allows non-form elements to register kb events
@@ -66,7 +71,9 @@ class Game extends Component {
           cellSpecs={this.state.cellSpecs}
           createBoard={this.createBoard}
           dir={this.state.dir}
-          paused={this.state.paused}
+          focusGame={this.focusGame}
+          status={this.state.status}
+          updateStatus={this.updateStatus}
         />
       </div>
     );
