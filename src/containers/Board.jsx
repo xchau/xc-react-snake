@@ -4,7 +4,7 @@ import '../styles/Board.css';
 import { INIT_SNAKE } from '../helpers/constants';
 import { styleBoard, styleCell } from '../helpers/styleHelpers';
 import { placeFood } from '../helpers/food';
-import { manipulateSnake } from '../helpers/snake';
+import { manipulateSnake, extendSnake } from '../helpers/snake';
 
 import { Cell } from './Cell';
 
@@ -49,7 +49,9 @@ export default class Board extends Component {
 
     // Render food
     for (const foodIdx of this.state.food) {
-      newBoard[foodIdx] = 2;
+      if (newBoard[foodIdx] !== 1) {
+        newBoard[foodIdx] = 2;
+      }
     }
 
     let cells = newBoard.map((value, idx) => {
@@ -79,10 +81,26 @@ export default class Board extends Component {
 
   _tick() {
     const dir = this.props.dir;
+    const curSnake = this.state.snake;
 
     this.setState({
       snake: manipulateSnake(dir, this.state.snake),
       cells: this._renderBoard(this.state.board)
+    }, () => {
+      const ii = this.state.food.indexOf(curSnake[0]);
+
+      // Handle snake/food collision
+      if (ii > -1) {
+        this.setState({
+          food: [placeFood()]
+        }, () => { // add snake len
+          this.setState({
+            snake: extendSnake(this.props.dir, curSnake)
+          }, () => {
+            console.log(this.state.snake);
+          });
+        });
+      }
     });
 
     setTimeout(this._tick, 100);
@@ -116,10 +134,7 @@ export default class Board extends Component {
 
       <button
         className="board-start-button"
-        // onClick={this._tick}
-        onClick={() => {
-          console.log(this.state.food);
-        }}
+        onClick={this._tick}
       >
         Start
       </button>
