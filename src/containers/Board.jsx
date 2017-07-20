@@ -15,7 +15,8 @@ export default class Board extends Component {
     this.state = {
       snake: INIT_SNAKE,
       board: [],
-      cells: []
+      cells: [],
+      food: [placeFood()]
     };
 
     this._initBoard = this._initBoard.bind(this);
@@ -32,8 +33,6 @@ export default class Board extends Component {
       board.push(0);
     }
 
-    placeFood(board);
-
     this.setState({
       board: board,
       cells: this._renderBoard(board)
@@ -44,8 +43,13 @@ export default class Board extends Component {
     const newBoard = [].concat(board);
 
     // Render snake
-    for (const idx of this.state.snake) {
-      newBoard[idx] = 1;
+    for (const snakeIdx of this.state.snake) {
+      newBoard[snakeIdx] = 1;
+    }
+
+    // Render food
+    for (const foodIdx of this.state.food) {
+      newBoard[foodIdx] = 2;
     }
 
     let cells = newBoard.map((value, idx) => {
@@ -97,7 +101,10 @@ export default class Board extends Component {
 
       <button
         className="board-start-button"
-        onClick={this._tick}
+        // onClick={this._tick}
+        onClick={() => {
+          console.log(this.state.food);
+        }}
       >
         Start
       </button>

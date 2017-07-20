@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './styles/Game.css';
 
-import { keys, LEFT, UP, RIGHT, DOWN, BOARD_ROWS } from './helpers/constants';
+import { keys, codes,
+  LEFT, UP, RIGHT, DOWN, BOARD_ROWS
+} from './helpers/constants';
 
 import Board from './containers/Board';
 
@@ -25,15 +27,18 @@ class Game extends Component {
   }
 
   _handleKeyPress(e) {
-    if (37 <= e.keyCode && e.keyCode <= 40) {
-      if (this.state.dir === RIGHT && keys[e.keyCode] === LEFT) return;
-      if (this.state.dir === LEFT && keys[e.keyCode] === RIGHT) return;
-      if (this.state.dir === UP && keys[e.keyCode] === DOWN) return;
-      if (this.state.dir === DOWN && keys[e.keyCode] === UP) return;
+    const difference = Math.abs(codes[this.state.dir] - e.keyCode);
 
+    // disallows non-arrow, same, opposite keys
+    if (keys[e.keyCode] && difference !== 0 && difference !== 2) {
       this.setState({ dir: keys[e.keyCode] });
+      this.refs.game.blur();
 
-      setTimeout(() => {console.log(this.state.dir)}, 500)
+      // prevents turning in opposite dir w/ quick inputs
+      setTimeout(() => {
+        this.refs.game.focus();
+        console.log(this.state.dir)
+      }, 70);
     }
   }
 

@@ -14,3 +14,10 @@ export const keys = {
   '39': 'RIGHT',
   '40': 'DOWN'
 };
+
+export const codes = {
+  'LEFT': 37,
+  'UP': 38,
+  'RIGHT': 39,
+  'DOWN': 40
+};
