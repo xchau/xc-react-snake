@@ -17,25 +17,48 @@ export default class Board extends Component {
       board: [],
       cells: [],
       food: [],
-      message: 'Start Game'
+      message: 'Start Game',
+      interval: null
     };
 
+    this._handleClick = this._handleClick.bind(this);
     this._initBoard = this._initBoard.bind(this);
     this._renderBoard = this._renderBoard.bind(this);
     this._tick = this._tick.bind(this);
-    this._handleClick = this._handleClick.bind(this);
+    this._tickScore = this._tickScore.bind(this);
+  }
+
+  _tickScore(ticking) {
+    const increment = () => {
+      let score = this.props.score;
+
+      score += 1;
+      this.props.updateScore(score);
+    }
+
+    if (ticking) {
+      this.setState({
+        interval: setInterval(() => increment(), 1000)
+      });
+    }
+    else {
+      this.setState({
+        interval: clearInterval(this.state.interval)
+      });
+    }
   }
 
   _handleClick() {
-    console.log('init');
     if (this.props.status === PAUSED) {
       this.props.updateStatus(ACTIVE);
       this.props.focusGame();
+      this._tickScore(true);
 
       setTimeout(this._tick, 250);
     }
     else {
       this.props.updateStatus(PAUSED);
+      this._tickScore(false);
 
       if (this.state.message !== 'Resume') {
         this.setState({ message: 'Resume' });
@@ -148,6 +171,9 @@ export default class Board extends Component {
 
   render() {
     return <div className="board-container">
+      <p className="board-score">
+        Score: {this.props.score}
+      </p>
       <div
         className="board-box"
         style={styleBoard(this.props.boardSpecs, this.props.cellSpecs)}

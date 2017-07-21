@@ -20,12 +20,14 @@ class Game extends Component {
         width: 30
       },
       dir: RIGHT,
-      status: PAUSED
+      status: PAUSED,
+      score: 0
     };
 
     this._handleKeyPress = this._handleKeyPress.bind(this);
     this.focusGame = this.focusGame.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
+    this.updateScore = this.updateScore.bind(this);
   }
 
   _handleKeyPress(e) {
@@ -52,6 +54,10 @@ class Game extends Component {
     this.setState({ status });
   }
 
+  updateScore(score) {
+    this.setState({ score })
+  }
+
   componentDidMount() {
     this.focusGame();
   }
@@ -71,8 +77,10 @@ class Game extends Component {
           createBoard={this.createBoard}
           dir={this.state.dir}
           focusGame={this.focusGame}
+          score={this.state.score}
           status={this.state.status}
           updateStatus={this.updateStatus}
+          updateScore={this.updateScore}
         />
       </div>
     );
