@@ -43,7 +43,7 @@ class Game extends Component {
       setTimeout(() => {
         this.refs.game.focus();
         console.log(this.state.dir)
-      }, 90);
+      }, 110);
     }
   }
 

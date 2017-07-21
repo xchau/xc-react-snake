@@ -181,7 +181,12 @@ export default class Board extends Component {
   render() {
     return <div className="board-container">
       <p className="board-score">
-        Score: {Math.floor(this.props.score)}
+        {
+          this.props.status !== GAMEOVER ?
+            'Score: ' + Math.floor(this.props.score)
+            :
+            null
+        }
       </p>
       <div
         className="board-box"
@@ -204,9 +209,12 @@ export default class Board extends Component {
                     { this.state.message }
                   </button>
                   :
-                  <button>
-                    { this.state.message + 'HIEIH' }
-                  </button>
+                  <div>
+                    { this.state.message }
+                    <p>
+                      You got {Math.floor(this.props.score)} points!
+                    </p>
+                  </div>
               }
             </div>
         }
