@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/Board.css';
 
-import { INIT_SNAKE, ACTIVE, PAUSED } from '../helpers/constants';
+import { INIT_SNAKE, ACTIVE, PAUSED, GAMEOVER } from '../helpers/constants';
 import { styleBoard, styleCell } from '../helpers/styleHelpers';
 import { placeFood } from '../helpers/food';
 import { manipulateSnake, extendSnake } from '../helpers/snake';
@@ -71,11 +71,8 @@ export default class Board extends Component {
 
     // Render food
     for (const foodIdx of this.state.food) {
-      if (this.state.snake.indexOf(foodIdx) === -1) {
+      if (newBoard[foodIdx] !== 1) {
         newBoard[foodIdx] = 2;
-      }
-      else {
-        console.log('collision');
       }
     }
 
@@ -105,7 +102,7 @@ export default class Board extends Component {
   }
 
   _tick() {
-    if (this.props.status === PAUSED) return;
+    if (this.props.status === PAUSED || this.props.status === GAMEOVER) return;
 
     const dir = this.props.dir;
     const curSnake = this.state.snake;
@@ -114,20 +111,27 @@ export default class Board extends Component {
       snake: manipulateSnake(dir, this.state.snake),
       cells: this._renderBoard(this.state.board)
     }, () => {
-      // Handle snake/food collision
-      const ii = this.state.food.indexOf(curSnake[0]);
+      // Handle snake-food & snake-snake collision
+      const si = curSnake.slice(1).indexOf(curSnake[0]),
+            ii = this.state.food.indexOf(curSnake[0]);
+
+      if (si > -1) {
+        this.props.updateStatus(GAMEOVER);
+        this._tickScore(false);
+        this.setState({ message: 'GAME OVER' });
+      }
 
       if (ii > -1) {
+        // Replace food
+        this.setState({ food: [placeFood()] });
+
+        // Extend snake + update score
+        const score = this.props.score;
+
+        this.props.updateScore((score * 1.02) + 50);
+
         this.setState({
-          food: [placeFood()]
-        }, () => { // add snake len & bonus points
-          const score = this.props.score;
-
-          this.props.updateScore((score * 1.02) + 50);
-
-          this.setState({
-            snake: extendSnake(this.props.dir, curSnake)
-          });
+          snake: extendSnake(this.props.dir, curSnake)
         });
       }
     });
@@ -194,9 +198,16 @@ export default class Board extends Component {
             </button>
             :
             <div className="board-overlay">
-              <button onClick={this._handleClick}>
-                { this.state.message }
-              </button>
+              {
+                this.props.status !== GAMEOVER ?
+                  <button onClick={this._handleClick}>
+                    { this.state.message }
+                  </button>
+                  :
+                  <button>
+                    { this.state.message + 'HIEIH' }
+                  </button>
+              }
             </div>
         }
       </div>

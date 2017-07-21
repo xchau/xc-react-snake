@@ -10,6 +10,7 @@ export const INIT_SNAKE = [2, 1, 0];
 
 export const PAUSED = 'paused';
 export const ACTIVE = 'active';
+export const GAMEOVER = 'gameover';
 
 export const keys = {
   '37': 'LEFT',

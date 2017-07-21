@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './styles/Game.css';
 
 import { keys, codes,
-  RIGHT, BOARD_ROWS, PAUSED } from './helpers/constants';
+  RIGHT, BOARD_ROWS,
+  PAUSED, GAMEOVER } from './helpers/constants';
 
 import Board from './containers/Board';
 
