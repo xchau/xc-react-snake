@@ -3,7 +3,7 @@ import './styles/Game.css';
 
 import { keys, codes,
   RIGHT, BOARD_ROWS,
-  PAUSED, GAMEOVER } from './helpers/constants';
+  PAUSED } from './helpers/constants';
 
 import Board from './containers/Board';
 
