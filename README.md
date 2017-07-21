@@ -1,6 +1,7 @@
 # React Snake
 
-### Demo at: https://xchau-react-snake.herokuapp.com
+### Demo at:
+`https://xchau-react-snake.herokuapp.com`
 
 ### Installation
 1. `yarn`
