@@ -71,8 +71,11 @@ export default class Board extends Component {
 
     // Render food
     for (const foodIdx of this.state.food) {
-      if (newBoard[foodIdx] !== 1) {
+      if (this.state.snake.indexOf(foodIdx) === -1) {
         newBoard[foodIdx] = 2;
+      }
+      else {
+        console.log('collision');
       }
     }
 
@@ -111,9 +114,9 @@ export default class Board extends Component {
       snake: manipulateSnake(dir, this.state.snake),
       cells: this._renderBoard(this.state.board)
     }, () => {
+      // Handle snake/food collision
       const ii = this.state.food.indexOf(curSnake[0]);
 
-      // Handle snake/food collision
       if (ii > -1) {
         this.setState({
           food: [placeFood()]
@@ -136,7 +139,7 @@ export default class Board extends Component {
     const decrement = () => {
       let score = this.props.score;
 
-      score -= 3;
+      score -= 4;
       this.props.updateScore(score);
     }
 
