@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "poiret";
+  src: url("../assets/fonts/PoiretOne-Regular.ttf");
+}
+
 .board-box {
   background-color: #f2f2f2;
   display: flex;
@@ -17,18 +22,38 @@
 
 .board-overlay button {
   background-color: transparent;
-  border: 2px solid #000;
   border-radius: 4px;
-  font-family: Helvetica Neue;
+  font-family: "poiret", Helvetica Neue, sans-serif;
   font-size: 1.5rem;
 }
 
 .board-pause-button {
   background-color: transparent;
-  border: 2px solid #000;
   border-radius: 4px;
-  font-family: Helvetica Neue;
+  font-family: "poiret", Helvetica Neue, sans-serif;
   font-size: 1.2rem;
   position: absolute;
   right: -90px;
+}
+
+.board-score {
+  color: #fff;
+  font-family: "poiret", Helvetica Neue, sans-serif;
+  font-size: 1.8rem;
+  margin: 4px 0;
+}
+
+button {
+  border: 2px solid #4377de;
+  color: #4377de;
+}
+
+div {
+  font-size: 1.8rem;
+  font-family: "poiret", Helvetica Neue, sans-serif;
+}
+
+div p {
+  font-size: 1.6rem;
+  font-family: "poiret", Helvetica Neue, sans-serif;
 }
