@@ -21,7 +21,7 @@ class Game extends Component {
       },
       dir: RIGHT,
       status: PAUSED,
-      score: 0
+      score: 5000
     };
 
     this._handleKeyPress = this._handleKeyPress.bind(this);

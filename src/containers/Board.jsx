@@ -28,26 +28,6 @@ export default class Board extends Component {
     this._tickScore = this._tickScore.bind(this);
   }
 
-  _tickScore(ticking) {
-    const increment = () => {
-      let score = this.props.score;
-
-      score += 1;
-      this.props.updateScore(score);
-    }
-
-    if (ticking) {
-      this.setState({
-        interval: setInterval(() => increment(), 1000)
-      });
-    }
-    else {
-      this.setState({
-        interval: clearInterval(this.state.interval)
-      });
-    }
-  }
-
   _handleClick() {
     if (this.props.status === PAUSED) {
       this.props.updateStatus(ACTIVE);
@@ -137,17 +117,39 @@ export default class Board extends Component {
       if (ii > -1) {
         this.setState({
           food: [placeFood()]
-        }, () => { // add snake len
+        }, () => { // add snake len & bonus points
+          const score = this.props.score;
+
+          this.props.updateScore((score * 1.02) + 50);
+
           this.setState({
             snake: extendSnake(this.props.dir, curSnake)
-          }, () => {
-            console.log(this.state.snake);
           });
         });
       }
     });
 
     setTimeout(this._tick, 100);
+  }
+
+  _tickScore(ticking) {
+    const decrement = () => {
+      let score = this.props.score;
+
+      score -= 3;
+      this.props.updateScore(score);
+    }
+
+    if (ticking) {
+      this.setState({
+        interval: setInterval(() => decrement(), 1000)
+      });
+    }
+    else {
+      this.setState({
+        interval: clearInterval(this.state.interval)
+      });
+    }
   }
 
   componentWillMount() {
@@ -172,7 +174,7 @@ export default class Board extends Component {
   render() {
     return <div className="board-container">
       <p className="board-score">
-        Score: {this.props.score}
+        Score: {Math.floor(this.props.score)}
       </p>
       <div
         className="board-box"
